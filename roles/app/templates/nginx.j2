@@ -1,0 +1,29 @@
+server {
+        listen       8080;
+        server_name {{ project_url }};
+
+        root {{ project_dir }}/{{ project_root }};
+
+        access_log {{ project_dir }}/logs/nginx-access.log;
+        error_log {{ project_dir }}/logs/nginx-errors.log;
+
+        gzip             on;
+        gzip_min_length  1000;
+        gzip_proxied     expired no-cache no-store private auth;
+        gzip_types       text/plain application/xml;
+
+        location / {
+                include uwsgi_params;
+                uwsgi_pass 127.0.0.1:{{ uwsgi_port }};
+        }
+
+        location /static {
+                root {{ project_dir }};
+        }
+
+        location /media {
+                root {{ project_dir }};
+        }
+
+
+}

@@ -1,0 +1,21 @@
+---
+
+- name: Updating packages database
+  apt: update_cache=yes
+
+- name: Install packages
+  apt: pkg={{ item.name }} state=present
+  with_items:
+   - name: python-virtualenv
+   - name: python-pip
+   - name: nginx
+   - name: uwsgi
+   - name: uwsgi-plugin-python
+
+- name: Create linux user
+  user: name={{ username }} shell=/bin/bash home=/home/{{ username }} password={{ user_crypt_password }}
+
+- name: copy nginx config
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/raccoon.conf
+  notify:
+    - restart nginx
