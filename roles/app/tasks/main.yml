@@ -15,7 +15,13 @@
 - name: Create linux user
   user: name={{ username }} shell=/bin/bash home=/home/{{ username }} password={{ user_crypt_password }}
 
-- name: copy nginx config
+- name: Create project directory
+  file: path={{ project_dir }} state=directory
+
+- name: Create logs directory
+  file: path={{ project_dir }}/logs state=directory
+
+- name: Copy nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/raccoon.conf
   notify:
     - restart nginx
