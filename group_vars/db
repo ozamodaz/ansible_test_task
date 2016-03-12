@@ -1,0 +1,7 @@
+{
+'mysql_user':'',
+'mysql_user_password':'',
+'mysql_database':'',
+'mysql_root_user':'',
+'mysql_root_password':''
+}

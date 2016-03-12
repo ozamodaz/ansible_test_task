@@ -1,0 +1,9 @@
+{
+'username':'$USERNAME',
+'user_crypt_password':'$ENCRYPTED_PASS',
+'user_password':'$PASS',
+'project_url':'kurwa.space',
+'uwsgi_port':'9000',
+'project_dir':'/home/{{ username }}/projects/{{ project_url }}',
+'project_root':'test'
+}
