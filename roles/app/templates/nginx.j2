@@ -9,6 +9,8 @@ server {
     listen      8081;
     server_name     {{ project_url }};
     charset     utf-8;
+    error_log   {{ project_dir }}/logs/error.log warn;
+
 
     client_max_body_size 75M;
 
@@ -18,7 +20,6 @@ server {
 
     location /static {
         alias {{ project_dir }}/{{ app_name }}/static;
-
     }
 
     location / {

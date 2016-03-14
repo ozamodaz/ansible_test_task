@@ -9,10 +9,10 @@
 
 #Preparing Database server
 
-- hosts: db
-  become: yes
-  roles:
-    - db
+#- hosts: db
+#  become: yes
+#  roles:
+#    - db
 
 #Deploying CMS in unprivileged mode
 #Optionally: starting uwsgi right here

@@ -20,14 +20,14 @@
 - name: Create project directory
   file: path={{ project_dir }} state=directory
 
-- name: Clear application {{ app_name }} folder
-  file: name={{ project_dir }}/{{ app_name }} state=absent
+- name: Clear App directory
+  file: path={{ project_dir }}/{{ app_name }} state=absent
 
 - name: Create logs directory
   file: path={{ project_dir }}/logs state=directory
 
 - name: Set {{ username }} as the owner of projects directory
-  file: path=/home/{{ username }} owner={{ username }} mode=0755 recurse=yes
+  file: path=/home/{{ username }} owner={{ username }} group={{ username }} mode=0755 recurse=yes
 
 - name: Copy nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/raccoon.conf
