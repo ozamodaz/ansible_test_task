@@ -2,27 +2,28 @@
 
 #Installing software for application backend, checking folders, uploading configs
 
-#- hosts: app
-#  become: yes
-#  roles:
-#    - app
+- hosts: app
+  become: yes
+  roles:
+    - app
 
 #Preparing Database server
 
-#- hosts: db
-#  become: yes
-#  roles:
-#    - db
+- hosts: db
+  become: yes
+  roles:
+    - db
 
 #Deploying CMS in unprivileged mode
 #Optionally: starting uwsgi right here
 
-#- hosts: cms
-#  roles:
-#    - django
+- hosts: cms
+  roles:
+    - django
 
 #Starting uwsgi as a system service
 #Git...
+
 - hosts: app
   become: yes
   roles:

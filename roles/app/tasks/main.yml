@@ -20,8 +20,8 @@
 - name: Create project directory
   file: path={{ project_dir }} state=directory
 
-- name: Create App directory
-  file: path={{ project_dir }}/{{ app_name }} state=directory
+- name: Clear application {{ app_name }} folder
+  file: name={{ project_dir }}/{{ app_name }} state=absent
 
 - name: Create logs directory
   file: path={{ project_dir }}/logs state=directory

@@ -3,8 +3,8 @@
 - name: Create virtualenv
   pip: virtualenv={{ project_dir }}/virtualenv name=djangocms-installer
 
-- name: Clear Django-CMS folder
-  file: name={{ project_dir }}/{{ app_name }} state=absent
+#- name: Clear Django-CMS folder
+#  file: name={{ project_dir }}/{{ app_name }} state=absent
 
 - name: Install Django-CMS
   shell: ". {{ project_dir }}/virtualenv/bin/activate &&

@@ -1,4 +1,4 @@
 ---
 
-- name: Run uwsgi (run as service - {{ app_name }})
+- name: Run uwsgi (run as service - {{ app_name }}, user - {{ username }})
   service: name={{  app_name }} enabled=yes state=started

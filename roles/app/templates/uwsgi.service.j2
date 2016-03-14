@@ -3,7 +3,7 @@ Description=uWSGI instance to serve {{ app_name }}
 
 [Service]
 ExecStartPre=-/bin/bash -c 'mkdir -p /run/uwsgi; chown user:nginx /run/uwsgi'
-ExecStart=/bin/bash -c 'cd {{ project_dir }}; source {{ project_dir }}/virtualenv/bin/activate; uwsgi --ini uwsgi.ini'
+ExecStart=/bin/bash -c 'runuser -l {{ username }} -c "cd {{ project_dir }} && source {{ project_dir }}/virtualenv/bin/activate && uwsgi --ini uwsgi.ini"'
 
 [Install]
 WantedBy=multi-user.target
