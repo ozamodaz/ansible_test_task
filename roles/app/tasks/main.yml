@@ -11,17 +11,36 @@
    - name: nginx
    - name: uwsgi
    - name: uwsgi-plugin-python
+   - name: libmysqlclient-dev
+   - name: libjpeg-dev
 
-- name: Create linux user
+- name: Create linux user - {{ username }}
   user: name={{ username }} shell=/bin/bash home=/home/{{ username }} password={{ user_crypt_password }}
 
 - name: Create project directory
   file: path={{ project_dir }} state=directory
 
+- name: Create App directory
+  file: path={{ project_dir }}/{{ app_name }} state=directory
+
 - name: Create logs directory
   file: path={{ project_dir }}/logs state=directory
+
+- name: Set {{ username }} as the owner of projects directory
+  file: path=/home/{{ username }} owner={{ username }} mode=0755 recurse=yes
 
 - name: Copy nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/raccoon.conf
   notify:
     - restart nginx
+
+- name: Copy uwsgi.service
+  template: src=uwsgi.service.j2 dest=/etc/systemd/system/{{ app_name }}.service
+  notify:
+    - systemctl daemon-reload
+
+- name: Copy uwsgi_params
+  template: src=uwsgi_params dest={{ project_dir }}/uwsgi_params
+
+- name: Copy uwsgi_ini
+  template: src=uwsgi.j2 dest={{ project_dir }}/uwsgi.ini

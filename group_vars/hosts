@@ -1,0 +1,14 @@
+{
+'app_name':'Django-CMS',
+'username':'',
+'user_crypt_password':'',
+'user_password':'',
+'project_url':'kurwa.space',
+'uwsgi_port':'9000',
+'project_dir':'/home/{{ username }}/projects/{{ project_url }}',
+'mysql_user':'',
+'mysql_user_password':'',
+'mysql_database':'',
+'mysql_root_user':'root',
+'mysql_root_password':''
+}

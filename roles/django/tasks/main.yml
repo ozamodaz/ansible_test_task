@@ -1,0 +1,20 @@
+---
+
+- name: Create virtualenv
+  pip: virtualenv={{ project_dir }}/virtualenv name=djangocms-installer
+
+- name: Clear Django-CMS folder
+  file: name={{ project_dir }}/{{ app_name }} state=absent
+
+- name: Install Django-CMS
+  shell: ". {{ project_dir }}/virtualenv/bin/activate &&
+  djangocms  --i18n yes --use-tz yes --timezone UTC --reversion yes --permissions yes --languages en --django-version stable --cms-version stable --parent-dir {{ project_dir }}/{{ app_name }} --bootstrap no --starting-page yes --no-input --no-sync --no-user --utc --db mysql://raccoon:raccoon@comein.space/rccngng app"
+
+#- name: Run Django-CMS built-in server
+#  shell: ". {{ project_dir }}/virtualenv/bin/activate && python {{ project_dir }}/{{ app_name }}/manage.py runserver 0.0.0.0:8081"
+
+- name: Install uwsgi
+  pip: virtualenv={{ project_dir }}/virtualenv name=uwsgi
+
+#- name: Run uwsgi (run as user - {{ username }})
+#  shell: ". {{ project_dir }}/virtualenv/bin/activate && screen -dmS {{  app_name }} uwsgi --ini {{ project_dir }}/uwsgi.ini"

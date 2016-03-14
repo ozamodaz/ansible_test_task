@@ -1,0 +1,13 @@
+[uwsgi]
+
+socket          = {{ project_dir }}/{{ app_name }}/socket
+chmod-socket    = 666
+
+#socket         = 127.0.0.1:8000
+
+virtualenv      = {{ project_dir }}/virtualenv
+chdir           = {{ project_dir }}/{{ app_name }}
+module          = app.wsgi:application
+master          = true
+processes       = 5
+vacuum          = true
