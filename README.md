@@ -55,7 +55,7 @@ ec2_image: ami-87564feb # Ubuntu Server 14.04
 rds_instance_type: db.t2.micro
 backup_retention_period: 7
 mysql_provider: "{{ rds.instance.endpoint }}" #change to hostname if needed
-mysql_connection: "mysql://{{  mysql_user }}:{{ mysql_user_password }}@{{ mysql_provider }}/{{ mysql_database }}"
+mysql_connection: "mysql://{{ mysql_user }}:{{ mysql_user_password }}@{{ mysql_provider }}/{{ mysql_database }}"
 
 mysql_user: Petro
 mysql_user_password: 123456789
