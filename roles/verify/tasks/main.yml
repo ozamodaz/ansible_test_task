@@ -1,4 +1,16 @@
 ---
 
+# For Systemd Init System e.g. Debian Stable
+
+#- name: Copy uwsgi.service
+#  template: src=uwsgi.service.j2 dest=/etc/systemd/system/{{ app_name }}.service
+#  notify:
+#    - systemctl daemon-reload
+
+# For Upstart init e.g. Ubuntu Server 14.04
+
+- name: Copy uwsgi.service
+  template: src=uwsgi.upstart.conf.j2 dest=/etc/init/{{ app_name }}.conf
+
 - name: Run uwsgi (run as service - {{ app_name }}, user - {{ username }})
   service: name={{  app_name }} enabled=yes state=started

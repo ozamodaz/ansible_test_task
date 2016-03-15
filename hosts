@@ -1,7 +1,7 @@
 [hosts]
-app-1 ansible_ssh_host=46.101.78.251 ansible_ssh_user=
-db-1 ansible_ssh_host=178.62.234.7 ansible_ssh_user=
-cms ansible_ssh_host=46.101.78.251 ansible_ssh_user='{{ username }}' ansible_ssh_pass='{{ user_password }}'
+#app-1 ansible_ssh_host=46.101.78.251 ansible_ssh_user=ozamodaz
+#db-1 ansible_ssh_host=178.62.234.7 ansible_ssh_user=ozamodaz
+#cms ansible_ssh_host=46.101.78.251 ansible_ssh_user='{{ username }}'
 
 [app]
 app-1

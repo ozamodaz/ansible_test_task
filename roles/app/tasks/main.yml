@@ -8,6 +8,7 @@
   with_items:
    - name: python-virtualenv
    - name: python-pip
+   - name: python-dev
    - name: nginx
    - name: uwsgi
    - name: uwsgi-plugin-python
@@ -16,6 +17,9 @@
 
 - name: Create linux user - {{ username }}
   user: name={{ username }} shell=/bin/bash home=/home/{{ username }} password={{ user_crypt_password }}
+
+- name: Copy SSH key
+  authorized_key: user="{{ username }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
 - name: Create project directory
   file: path={{ project_dir }} state=directory
@@ -29,15 +33,15 @@
 - name: Set {{ username }} as the owner of projects directory
   file: path=/home/{{ username }} owner={{ username }} group={{ username }} mode=0755 recurse=yes
 
+- name: Ensure there no default site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:
+    - reload nginx
+
 - name: Copy nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/raccoon.conf
   notify:
-    - restart nginx
-
-- name: Copy uwsgi.service
-  template: src=uwsgi.service.j2 dest=/etc/systemd/system/{{ app_name }}.service
-  notify:
-    - systemctl daemon-reload
+    - reload nginx
 
 - name: Copy uwsgi_params
   template: src=uwsgi_params dest={{ project_dir }}/uwsgi_params

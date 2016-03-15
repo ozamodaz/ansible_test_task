@@ -6,7 +6,7 @@ upstream django {
 }
 
 server {
-    listen      8081;
+    listen      80 default_server;
     server_name     {{ project_url }};
     charset     utf-8;
     error_log   {{ project_dir }}/logs/error.log warn;
