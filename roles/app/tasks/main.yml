@@ -16,10 +16,7 @@
    - name: libjpeg-dev
 
 - name: Create linux user - {{ username }}
-  user: name={{ username }} shell=/bin/bash home=/home/{{ username }} password={{ user_crypt_password }}
-
-- name: Copy SSH key
-  authorized_key: user="{{ username }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  user: name={{ username }} shell=/bin/bash home=/home/{{ username }}
 
 - name: Create project directory
   file: path={{ project_dir }} state=directory
@@ -32,6 +29,9 @@
 
 - name: Set {{ username }} as the owner of projects directory
   file: path=/home/{{ username }} owner={{ username }} group={{ username }} mode=0755 recurse=yes
+
+- name: Copy SSH key
+  authorized_key: user="{{ username }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
 - name: Ensure there no default site
   file: path=/etc/nginx/sites-enabled/default state=absent

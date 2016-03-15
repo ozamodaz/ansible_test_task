@@ -1,13 +1,9 @@
 [hosts]
-#app-1 ansible_ssh_host=46.101.78.251 ansible_ssh_user=ozamodaz
-#db-1 ansible_ssh_host=178.62.234.7 ansible_ssh_user=ozamodaz
-#cms ansible_ssh_host=46.101.78.251 ansible_ssh_user='{{ username }}'
+#app-1 ansible_ssh_host=kurwa.space
+#db-1 ansible_ssh_host=comein.space
 
 [app]
-app-1
+#app-1
 
 [db]
-db-1
-
-[cms]
-cms
+#db-1

@@ -1,30 +1,38 @@
 ---
 
-#Installing software for application backend, checking folders, uploading configs
+# Configuring VPC and creating ec2 + rds instances
+
+- hosts: localhost
+  connection: local
+  roles:
+    - ec2
+    - rds
+
+# Installing software for application backend,
+# checking folders, uploading configs
 
 - hosts: app
   become: yes
+  remote_user: ubuntu
   roles:
     - app
 
-#Preparing Database server
+# Deploying CMS in unprivileged mode
+# Optionally: starting uwsgi right here
 
-#- hosts: db
-#  become: yes
-#  roles:
-#    - db
-
-#Deploying CMS in unprivileged mode
-#Optionally: starting uwsgi right here
-
-- hosts: cms
+- hosts: app
+  become: no
+  remote_user: "{{ username }}"
   roles:
     - django
+  vars:
+    rds: "{{ hostvars['localhost']['rds'] }}"
 
 #Starting uwsgi as a system service
 #Git...
 
 - hosts: app
   become: yes
+  remote_user: ubuntu
   roles:
     - verify

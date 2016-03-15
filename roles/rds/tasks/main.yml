@@ -1,0 +1,32 @@
+---
+
+- name: Create RDS security group
+  ec2_group:
+    name: "allow-mysql-from-vpc"
+    description: Allow Mysql Traffic
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    rules:
+      - proto: tcp
+        from_port: 3306
+        to_port: 3306
+        cidr_ip: "{{ '.'.join(ec2.instances[0].private_ip.split('.')[:2]) + '.0.0/16' }}"
+  register: rds_sg
+
+- name: Creating RDS instance
+  rds:
+     command: create
+     region: "{{ region }}"
+     instance_name: "{{ mysql_database }}"
+     db_name: "{{ mysql_database }}"
+     db_engine: MySQL
+     size: 10
+     instance_type: "{{ rds_instance_type }}"
+     vpc_security_groups: "{{ rds_sg.group_id }}"
+     username: "{{ mysql_user }}"
+     password: "{{ mysql_user_password }}"
+     wait: yes
+     wait_timeout: 1200
+     backup_retention: "{{ backup_retention_period }}"
+  register: rds
+- debug: msg="The new db endpoint is {{ rds.instance.endpoint }}"

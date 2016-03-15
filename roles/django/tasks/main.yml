@@ -5,7 +5,10 @@
 
 - name: Install Django-CMS
   shell: ". {{ project_dir }}/virtualenv/bin/activate &&
-  djangocms  --i18n yes --use-tz yes --timezone UTC --reversion yes --permissions yes --languages en --django-version stable --cms-version stable --parent-dir {{ project_dir }}/{{ app_name }} --bootstrap no --starting-page yes --no-input --no-sync --no-user --utc --db mysql://raccoon:raccoon@comein.space/rccngng app"
+  djangocms  --i18n yes --use-tz yes --timezone UTC --reversion yes --permissions yes --languages en --django-version stable --cms-version stable --parent-dir {{ project_dir }}/{{ app_name }} --bootstrap no --starting-page yes --no-input --no-user --utc --db {{ mysql_connection }} app"
+
+- name: Create admin user
+  shell: . {{ project_dir }}/virtualenv/bin/activate && echo 'from django.contrib.auth.models import User; User.objects.create_superuser("{{ username }}", "{{ user_email }}", "{{ user_password }}")' | {{ project_dir }}/{{ app_name }}/manage.py shell
 
 #- name: Run Django-CMS built-in server
 #  shell: ". {{ project_dir }}/virtualenv/bin/activate && python {{ project_dir }}/{{ app_name }}/manage.py runserver 0.0.0.0:8081"

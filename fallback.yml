@@ -1,0 +1,32 @@
+---
+
+# Installing software for application backend, checking folders, uploading configs
+
+- hosts: app
+  become: yes
+  roles:
+    - app
+
+#Preparing Database server
+
+- hosts: db
+  become: yes
+  roles:
+    - db
+
+# Deploying CMS in unprivileged mode
+# Optionally: starting uwsgi right here
+
+- hosts: app
+  become: no
+  remote_user: "{{ username }}"
+  roles:
+    - django
+
+# Starting uwsgi as a system service
+# Git...
+
+- hosts: app
+  become: yes
+  roles:
+    - verify
