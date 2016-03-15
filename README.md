@@ -4,9 +4,9 @@ Ansible Playbook deploying Django-CMS
 ### This instructions will
 - Add new AWS ssh key;
 - Configure Security Groups;
-- Create pulic EC2 and private RDS instances;
+- Create public EC2 and private RDS instances;
 - Install Nginx, uwsgi, sqlclient, etc, upload configs;
-- Create new unix user;
+- Create new Unix user;
 - Create virtualenv and install Django-CMS under newly created user;
 - Copy init-script and run uwsgi application as a system service (systemd or upstart).
 
