@@ -14,3 +14,52 @@
 
 - name: Run uwsgi (run as service - {{ app_name }}, user - {{ username }})
   service: name={{  app_name }} enabled=yes state=started
+
+- name: Ensure ~/.ssh folder present
+  file: path=/home/{{ username }}/.ssh state=directory
+
+- name: Copy Git private key
+  copy: src=./keys/kurwa dest=/home/{{ username }}/.ssh/id_rsa mode=0600 owner={{ username }} group={{ username }}
+
+- name: Copy SSH config
+  template: src=.ssh.config.j2 dest=~/.ssh/config
+  become: yes
+  become_user: "{{ username}}"
+
+- name: Set Git user email
+  shell: git config --global user.email "{{ user_email }}"
+  become: yes
+  become_user: "{{ username}}"
+
+- name: Set Git user name
+  shell: git config --global user.name "{{ username }}"
+  become: yes
+  become_user: "{{ username}}"
+
+- name: Copy .gitignore
+  template: src=.gitignore.j2 dest={{ project_dir }}/.gitignore
+
+- name: Collect host info
+  shell: uname -a && hostname && curl ipinfo.io
+  register: uname_result
+
+- name: Copy README
+  template: src=readme.md.j2 dest={{ project_dir }}/readme.md
+
+- name: Create github repo
+  shell: curl -u {{ github_credentials }} https://api.github.com/user/repos -d '{"name":"{{ app_name }}","description":"Greetings from ansible"}'
+
+- name: Init
+  shell: cd {{ project_dir }} && git init && git add . && git commit -m 'First commit'
+  become: yes
+  become_user: "{{ username}}"
+
+- name: Add origin
+  shell: cd {{ project_dir }} && git remote add origin git@github.com:ozamodaz/{{ app_name }}.git && git remote -v
+  become: yes
+  become_user: "{{ username}}"
+
+- name: git push origin master
+  shell: cd {{ project_dir }} && git push -f origin master
+  become: yes
+  become_user: "{{ username}}"

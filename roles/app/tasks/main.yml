@@ -14,6 +14,7 @@
    - name: uwsgi-plugin-python
    - name: libmysqlclient-dev
    - name: libjpeg-dev
+   - name: git
 
 - name: Create linux user - {{ username }}
   user: name={{ username }} shell=/bin/bash home=/home/{{ username }}
@@ -30,7 +31,7 @@
 - name: Set {{ username }} as the owner of projects directory
   file: path=/home/{{ username }} owner={{ username }} group={{ username }} mode=0755 recurse=yes
 
-- name: Copy SSH key
+- name: Copy DevOps public SSH key
   authorized_key: user="{{ username }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
 - name: Ensure there no default site
